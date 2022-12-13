@@ -1,8 +1,12 @@
 
 #~ import sys
 #~ sys.path.insert(0,'../Python/')
-from misc_func import *
+# from misc_func import *
+import numpy as np
 
+"""
+Adaptation of corner.py (https://corner.readthedocs.io/en/latest/)
+"""
 
 def main():
 	
@@ -237,9 +241,9 @@ def Ncorner(xs, bins=None, color=None, fig=None,
 		raise ValueError("Ncorner: Your labels are not the same length as your data!!!")
 			
 	if autoscale and axes_limits is not None:
-		print " == Warning, Ncorner: Why do you have both autoscale and axes_limits? I dont know what to do.."
+		print(" == Warning, Ncorner: Why do you have both autoscale and axes_limits? I dont know what to do..")
 	if not autoscale and axes_limits is None:
-		print " == Warning, Ncorner: You dont want to autoscale and didnt give axes_limits\n you are being inconsistent and i am going to autoscale nonetheless"
+		print(" == Warning, Ncorner: You dont want to autoscale and didnt give axes_limits\n you are being inconsistent and i am going to autoscale nonetheless")
 		autoscale = True
 	if axes_limits is not None:
 		if len(axes_limits) != len(labels):
@@ -265,7 +269,7 @@ def Ncorner(xs, bins=None, color=None, fig=None,
 	# Get rid of irregularities (inf)
 	ind_inf = np.isinf(xs)
 	if np.sum(ind_inf) > 0:
-		print " == Warning, Ncorner: you have %i infinities in your sample, I REPLACED THEM BY NaN"%(np.sum(ind_inf))
+		print(" == Warning, Ncorner: you have %i infinities in your sample, I REPLACED THEM BY NaN"%(np.sum(ind_inf)) )
 		xs[ind_inf] = float('NaN')
 	
 
@@ -450,8 +454,8 @@ def Ncorner(xs, bins=None, color=None, fig=None,
 				ax.axhline(q, ls="dashed", color=color) if i == K-1 and share_axes else ax.axvline(q, ls="dashed", color=color)
 
 			if verbose:
-				print "%i, %s, Quantiles:"%(i,labels[i])
-				print [item for item in zip(quantiles, qvalues)]
+				print("%i, %s, Quantiles:"%(i,labels[i]))
+				print([item for item in zip(quantiles, qvalues)])
 
 		if show_titles:
 			title = None
@@ -677,7 +681,7 @@ def Ncorner(xs, bins=None, color=None, fig=None,
 	axarr[0,K-1].legend(loc=9,borderpad=0,facecolor='w',fontsize=16,framealpha=1,handletextpad=0.15,handlelength=1,edgecolor='w',bbox_to_anchor=(0.5,1.),borderaxespad=0.)#,labelspacing=.2)#,zorder=10)
 	axarr[0,K-1].set_xlim(100,101)
 	if len(dataset_label) > 18:
-		print '   -- Warning, Ncorner: avoid len(dataset_label)>18 for cosmetic reasons'
+		print('   -- Warning, Ncorner: avoid len(dataset_label)>18 for cosmetic reasons')
 	#~ print 'a',
 	#~ raw_input()
 	
@@ -746,7 +750,7 @@ def Ncorner(xs, bins=None, color=None, fig=None,
 			return writestr
 		writestr = '\n Data Summary for %s (tot %i):'%(dataset_label,len(xs[0]))
 		writestr += '\n'+ mkrow(['col','~nan','mean','median','std','IQR','min','max'])
-		if data_summary_print: print writestr
+		if data_summary_print: print( writestr )
 		if data_summary_file: datasummary_file.write_appline(writestr)
 			
 		for i in range(len(xs)):
@@ -758,7 +762,7 @@ def Ncorner(xs, bins=None, color=None, fig=None,
 			else:
 				rowdata += [np.mean(x[thenotnans]),np.median(x[thenotnans]),np.std(x[thenotnans]),np.subtract(*np.percentile(x[thenotnans], [75, 25])),min(x[thenotnans]),max(x[thenotnans])]
 			writestr = mkrow(rowdata)
-			if data_summary_print: print writestr
+			if data_summary_print: print( writestr )
 			if data_summary_file: datasummary_file.write_appline(writestr)
 		
 		
@@ -782,9 +786,9 @@ def autoscale_y(ax,margin=0.1):
         xd = line.get_xdata()
         yd = line.get_ydata()
         lo,hi = ax.get_xlim()
-        print yd
-        print type(yd)
-        print ((xd>lo) & (xd<hi))
+        # print yd
+        # print type(yd)
+        # print ((xd>lo) & (xd<hi))
         y_displayed = yd[((xd>lo) & (xd<hi))]
         h = np.max(y_displayed) - np.min(y_displayed)
         bot = np.min(y_displayed)-margin*h
